@@ -16,7 +16,7 @@ echo "Created database: $DBNAME"
 
 perl -i -pe "BEGIN{undef $/;} s/^\[mysqld\]$/[mysqld]\n\ndefault-authentication-plugin=mysql_native_password\n/sgm" /etc/my.cnf
 
-mysqld_pre_systemd && \
+mysqld --initialize && \
 mysqld --user=root -D && \
 # Change root password
 mysqladmin -u root -p$(grep 'temporary password' /var/log/mysqld.log | awk '{print $13}') password "$ROOTPASS" && \
